@@ -30,7 +30,7 @@ private:
 public:
 	CVSReader();
 
-	void open(string nameFile);
+	void open(char *nameFile);
 
 	void readLine(string line);
 

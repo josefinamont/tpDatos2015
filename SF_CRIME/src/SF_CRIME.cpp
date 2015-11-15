@@ -9,12 +9,14 @@
 #include "CVSReader.h"
 #include <iostream>
 #include <stdio.h>
+#include <string>
 using namespace std;
 
 int main() {
 
 	CVSReader csv;
-	csv.open("test.csv");
+	char *archivo = "test.csv";
+	csv.open(archivo);
 
 	return 0;
 }

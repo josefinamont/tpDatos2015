@@ -14,10 +14,11 @@ CVSReader::CVSReader() {
 	this->rows = 0;
 }
 
-void CVSReader::open(string nameFile){
+void CVSReader::open(char *nameFile){
 
 	string line, csvItem;
-	ifstream myfile ("test.csv");
+	//ifstream myfile ("test.csv");
+	ifstream myfile(nameFile);
 
 	if (myfile.is_open()) {
 
