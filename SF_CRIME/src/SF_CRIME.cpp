@@ -10,12 +10,13 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+
 using namespace std;
 
 int main() {
 
 	CVSReader csv;
-	char *archivo = "test.csv";
+	char *archivo = "trainSpliteado.csv";
 	csv.open(archivo);
 
 	return 0;

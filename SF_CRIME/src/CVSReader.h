@@ -11,15 +11,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
 #include <string>
-#include <utility>
-#include <functional>
-#include <algorithm>
-#include <cctype>
 #include <stdio.h>
 
-namespace std {
+using namespace std;
 
 class CVSReader {
 
@@ -36,7 +31,5 @@ public:
 
 	virtual ~CVSReader();
 };
-
-} /* namespace std */
 
 #endif /* CVSREADER_H_ */
