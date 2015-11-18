@@ -1,0 +1,55 @@
+/*
+ * CVSReader.h
+ *
+ *  Created on: 8 de nov. de 2015
+ *      Author: joha
+ */
+
+#ifndef CVSREADER_H_
+#define CVSREADER_H_
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <stdio.h>
+#include <map>
+
+using namespace std;
+
+class CSVReader {
+
+private:
+
+public:
+
+	CSVReader();
+
+	void open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &frecuenciasCrimenes,
+			map<string,int> &crimenesPorDistrito,map<string,float> &probabilidadesCrimenes,
+			map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10]);
+
+	void calcularCrimenesPorDistrito(map<string,int> &crimenesPorDistrito,string &csvItem,map<string,float> &bayview,
+			map<string,float> &central,map<string,float> &ingleside,map<string,float> &mission,
+			map<string,float> &northern,map<string,float> &park,map<string,float> &richmond,
+			map<string,float> &southern,map<string,float> &taraval,map<string,float> &tenderloin,string &crimen);
+
+	void calcularCrimenesPorDia(string &csvItem,string &crimen,map<string,float> &lunes,map<string,float> &martes,
+			map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
+			map<string,float> &domingo);
+
+	void calcularProbabilidadesDeCrimenesPorDia(map<string,float> &lunes,map<string,float> &martes,
+			map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
+			map<string,float> &domingo,map<string,float> frecuenciaCrimenes);
+
+	void calcularProbabilidadesDeCrimenesPorDistrito(map<string,float> &bayview,map<string,float> &central,
+			map<string,float> &ingleside,map<string,float> &mission,map<string,float> &northern,map<string,float> &park,
+			map<string,float> &richmond,map<string,float> &southern,map<string,float> &taraval,
+			map<string,float> &tenderloin,map<string,float> frecuenciaCrimenes);
+
+	//void calcularProbabilidades(char *nameFile);
+
+	virtual ~CSVReader();
+};
+
+#endif /* CVSREADER_H_ */
