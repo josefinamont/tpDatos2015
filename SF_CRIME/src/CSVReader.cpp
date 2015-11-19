@@ -64,8 +64,8 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 
 	//esto lo que hace es calcular las probabilidades de los crimenes por dia y distrito, y almacenarlos en un vector
 	//para luego poder acceder a estos datos calculados
-	calcularProbabilidadesDeCrimenesPorDia(lunes,martes,miercoles,jueves,viernes,sabado,domingo,frecuenciaCrimenes);
-	calcularProbabilidadesDeCrimenesPorDistrito(bayview,central,ingleside,mission,northern,park,richmond,southern,taraval,
+	this->calcularProbabilidadesDeCrimenesPorDia(lunes,martes,miercoles,jueves,viernes,sabado,domingo,frecuenciaCrimenes);
+	this->calcularProbabilidadesDeCrimenesPorDistrito(bayview,central,ingleside,mission,northern,park,richmond,southern,taraval,
 			tenderloin,frecuenciaCrimenes);
 
 	probabilidadesDias[0] = lunes;
@@ -87,144 +87,42 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 	probabilidadesDistritos[8] = taraval;
 	probabilidadesDistritos[9] = tenderloin;
 
-	/*float probabilidad = 0;
+}
+
+void CSVReader::calcularProbabilidadesDeLosCrimenes(map<string,float> frecuenciaCrimenes,map<string,float> &probabilidadesCrimenes,
+		int cantidadDeRowsTrain){
 
 	probabilidadesCrimenes = frecuenciaCrimenes;
 	map<string,float>::iterator iter2 = probabilidadesCrimenes.begin();
 	while (iter2 != probabilidadesCrimenes.end() ){
 		iter2->second = (iter2->second/cantidadDeRowsTrain);
-		probabilidad += iter2->second;
-	    cout << iter2->first + " " <<  iter2->second << endl;
-	    iter2++;
-	}
-
-	float frecuenciaTotal = 0;
-
-	map<string,float>::iterator iter1 = frecuenciaCrimenes.begin();
-	while (iter1 != frecuenciaCrimenes.end() ){
-		frecuenciaTotal += iter1->second;
-		cout << iter1->first + " " <<  iter1->second << endl;
-		iter1++;
-	}
-	cout << frecuenciaTotal << endl;
-	cout << probabilidad << endl;*/
-
-
-	/*map<string,float>::iterator iter = martes.begin();
-	while (iter != martes.end() ){
-		iter->second = (iter->second/cantidadDeRowsTrain);
-		cout << iter->first + " " <<  iter->second << endl;
-		iter++;
-	}*/
-
-	//cout << cantidadDeRowsTrain << endl;
-
-
-	/*map<string,int>::iterator iter2 = crimenesPorDistrito.begin();
-	while (iter2 != crimenesPorDistrito.end() ){
-		cout << iter2->first + " " <<  iter2->second << endl;
+		//cout << iter2->first + " " <<  iter2->second << endl;
 		iter2++;
 	}
 
-	map<string,float>::iterator iter4 = northern.begin();
-	while (iter4 != northern.end() ){
-		//cout << iter4->first + " " <<  iter4->second << endl;
-		iter4++;
-	}*/
+}
+
+void CSVReader::calcularProbabilidad(map<string,float> &nombreMap,map<string,float> frecuenciaCrimenes){
+
+	map<string,float>::iterator iter = nombreMap.begin();
+	while (iter != nombreMap.end() ){
+		iter->second = (iter->second/frecuenciaCrimenes[iter->first]);
+		//cout << iter2->first + " " <<  iter2->second << endl;
+		iter++;
+	}
 }
 
 void CSVReader::calcularProbabilidadesDeCrimenesPorDia(map<string,float> &lunes,map<string,float> &martes,
 		map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
 		map<string,float> &domingo,map<string,float> frecuenciaCrimenes){
 
-	/*float p1,p2,p3,p4,p5,p6,p7,f1,f2,f3,f4,f5,f6,f7;
-	p1 = 0;
-		p2 = 0;
-		p3 = 0;
-		p4 = 0;
-		p5 = 0;
-		p6 = 0;
-		p7 = 0;
-		f1 = 0;
-		f2 = 0;
-		f3 = 0;
-		f4 = 0;
-		f5 = 0;
-		f6 = 0;
-		f7 = 0;*/
-
-	map<string,float>::iterator iter = lunes.begin();
-	while (iter != lunes.end() ){
-		//f1 += iter->second;
-		iter->second = (iter->second/frecuenciaCrimenes[iter->first]);
-		//p1 += iter->second;
-		//cout << iter->first + " " <<  iter->second << endl;
-		iter++;
-	}
-
-	map<string,float>::iterator iter1 = martes.begin();
-	while (iter1 != martes.end() ){
-		//f2 += iter1->second;
-		iter1->second = (iter1->second/frecuenciaCrimenes[iter1->first]);
-		//p2 += iter1->second;
-		//cout << iter1->first + " " <<  iter1->second << endl;
-		iter1++;
-	}
-
-	map<string,float>::iterator iter2 = miercoles.begin();
-	while (iter2 != miercoles.end() ){
-		//f3 += iter2->second;
-		iter2->second = (iter2->second/frecuenciaCrimenes[iter2->first]);
-		//p3 += iter2->second;
-		//cout << iter2->first + " " <<  iter2->second << endl;
-		iter2++;
-	}
-
-	map<string,float>::iterator iter3 = jueves.begin();
-	while (iter3 != jueves.end() ){
-		//f4 += iter3->second;
-		iter3->second = (iter3->second/frecuenciaCrimenes[iter3->first]);
-		//p4 += iter3->second;
-		//cout << iter3->first + " " <<  iter3->second << endl;
-		iter3++;
-	}
-
-	map<string,float>::iterator iter4 = viernes.begin();
-	while (iter4 != viernes.end() ){
-		//f5 += iter4->second;
-		iter4->second = (iter4->second/frecuenciaCrimenes[iter4->first]);
-		//p5 += iter4->second;
-		//cout << iter4->first + " " <<  iter4->second << endl;
-		iter4++;
-	}
-
-	map<string,float>::iterator iter5 = sabado.begin();
-	while (iter5 != sabado.end() ){
-		//f6 += iter5->second;
-		iter5->second = (iter5->second/frecuenciaCrimenes[iter5->first]);
-		//p6 += iter5->second;
-		//cout << iter5->first + " " <<  iter5->second << endl;
-		iter5++;
-	}
-
-	map<string,float>::iterator iter6 = domingo.begin();
-	while (iter6 != domingo.end() ){
-		//f7 += iter6->second;
-		iter6->second = (iter6->second/frecuenciaCrimenes[iter6->first]);
-		//p7 += iter6->second;
-		//cout << iter6->first + " " <<  iter6->second << endl;
-		iter6++;
-	}
-
-	/*cout << p1 << endl;
-	cout << p2 << endl;
-	cout << p3 << endl;
-	cout << p4 << endl;
-	cout << p5 << endl;
-	cout << p6 << endl;
-	cout << p7 << endl;
-
-	cout << f1+f2+f3+f4+f5+f6+f7 << endl;*/
+	this->calcularProbabilidad(lunes,frecuenciaCrimenes);
+	this->calcularProbabilidad(martes,frecuenciaCrimenes);
+	this->calcularProbabilidad(miercoles,frecuenciaCrimenes);
+	this->calcularProbabilidad(jueves,frecuenciaCrimenes);
+	this->calcularProbabilidad(viernes,frecuenciaCrimenes);
+	this->calcularProbabilidad(sabado,frecuenciaCrimenes);
+	this->calcularProbabilidad(domingo,frecuenciaCrimenes);
 
 }
 
@@ -233,127 +131,16 @@ void CSVReader::calcularProbabilidadesDeCrimenesPorDistrito(map<string,float> &b
 		map<string,float> &richmond,map<string,float> &southern,map<string,float> &taraval,
 		map<string,float> &tenderloin,map<string,float> frecuenciaCrimenes){
 
-	/*float p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10;
-	p1 = 0;
-	p2 = 0;
-	p3 = 0;
-	p4 = 0;
-	p5 = 0;
-	p6 = 0;
-	p7 = 0;
-	p8 = 0;
-	p9 = 0;
-	p10 = 0;
-	f1 = 0;
-	f2 = 0;
-	f3 = 0;
-	f4 = 0;
-	f5 = 0;
-	f6 = 0;
-	f7 = 0;
-	f8 = 0;
-	f9 = 0;
-	f10 = 0;*/
-
-	map<string,float>::iterator iter = bayview.begin();
-	while (iter != bayview.end() ){
-		//f1 += iter->second;
-		iter->second = (iter->second/frecuenciaCrimenes[iter->first]);
-		//p1 += iter->second;
-		//cout << iter->first + " " <<  iter->second << endl;
-		iter++;
-	}
-
-	map<string,float>::iterator iter1 = central.begin();
-	while (iter1 != central.end() ){
-		//f2 += iter1->second;
-		iter1->second = (iter1->second/frecuenciaCrimenes[iter1->first]);
-		//p2 += iter1->second;
-		//cout << iter1->first + " " <<  iter1->second << endl;
-		iter1++;
-	}
-
-	map<string,float>::iterator iter2 = ingleside.begin();
-	while (iter2 != ingleside.end() ){
-		//f3 += iter2->second;
-		iter2->second = (iter2->second/frecuenciaCrimenes[iter2->first]);
-		//p3 += iter2->second;
-		//cout << iter2->first + " " <<  iter2->second << endl;
-		iter2++;
-	}
-
-	map<string,float>::iterator iter3 = mission.begin();
-	while (iter3 != mission.end() ){
-		//f4 += iter3->second;
-		iter3->second = (iter3->second/frecuenciaCrimenes[iter3->first]);
-		//p4 += iter3->second;
-		//cout << iter3->first + " " <<  iter3->second << endl;
-		iter3++;
-	}
-
-	map<string,float>::iterator iter4 = northern.begin();
-	while (iter4 != northern.end() ){
-		//f5 += iter4->second;
-		iter4->second = (iter4->second/frecuenciaCrimenes[iter4->first]);
-		//p5 += iter4->second;
-		//cout << iter4->first + " " <<  iter4->second << endl;
-		iter4++;
-	}
-
-	map<string,float>::iterator iter5 = park.begin();
-	while (iter5 != park.end() ){
-		//f6 += iter5->second;
-		iter5->second = (iter5->second/frecuenciaCrimenes[iter5->first]);
-		//p6 += iter5->second;
-		//cout << iter5->first + " " <<  iter5->second << endl;
-		iter5++;
-	}
-
-	map<string,float>::iterator iter6 = richmond.begin();
-	while (iter6 != richmond.end() ){
-		//f7 += iter6->second;
-		iter6->second = (iter6->second/frecuenciaCrimenes[iter6->first]);
-		//p7 += iter6->second;
-		//cout << iter6->first + " " <<  iter6->second << endl;
-		iter6++;
-	}
-
-	map<string,float>::iterator iter7 = southern.begin();
-	while (iter7 != southern.end() ){
-		//f8 += iter7->second;
-		iter7->second = (iter7->second/frecuenciaCrimenes[iter7->first]);
-		//p8 += iter7->second;
-		//cout << iter7->first + " " <<  iter7->second << endl;
-		iter7++;
-	}
-
-	map<string,float>::iterator iter8 = taraval.begin();
-	while (iter8 != taraval.end() ){
-		//f9 += iter8->second;
-		iter8->second = (iter8->second/frecuenciaCrimenes[iter8->first]);
-		//p9 += iter8->second;
-		//cout << iter8->first + " " <<  iter8->second << endl;
-		iter8++;
-	}
-
-	map<string,float>::iterator iter9 = tenderloin.begin();
-	while (iter9 != tenderloin.end() ){
-		//f10 += iter9->second;
-		iter9->second = (iter6->second/frecuenciaCrimenes[iter9->first]);
-		//p10 += iter9->second;
-		//cout << iter9->first + " " <<  iter9->second << endl;
-		iter9++;
-	}
-
-	/*cout << p1 << endl;
-	cout << p2 << endl;
-	cout << p3 << endl;
-	cout << p4 << endl;
-	cout << p5 << endl;
-	cout << p6 << endl;
-	cout << p7 << endl;
-
-	cout << f1+f2+f3+f4+f5+f6+f7+f8+f9+f10 << endl;*/
+	this->calcularProbabilidad(bayview,frecuenciaCrimenes);
+	this->calcularProbabilidad(central,frecuenciaCrimenes);
+	this->calcularProbabilidad(ingleside,frecuenciaCrimenes);
+	this->calcularProbabilidad(mission,frecuenciaCrimenes);
+	this->calcularProbabilidad(northern,frecuenciaCrimenes);
+	this->calcularProbabilidad(park,frecuenciaCrimenes);
+	this->calcularProbabilidad(richmond,frecuenciaCrimenes);
+	this->calcularProbabilidad(southern,frecuenciaCrimenes);
+	this->calcularProbabilidad(taraval,frecuenciaCrimenes);
+	this->calcularProbabilidad(tenderloin,frecuenciaCrimenes);
 
 }
 

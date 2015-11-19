@@ -21,6 +21,8 @@ class CSVReader {
 
 private:
 
+	void calcularProbabilidad(map<string,float> &nombreMap,map<string,float> frecuenciaCrimenes);
+
 public:
 
 	CSVReader();
@@ -28,6 +30,9 @@ public:
 	void open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &frecuenciasCrimenes,
 			map<string,int> &crimenesPorDistrito,map<string,float> &probabilidadesCrimenes,
 			map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10]);
+
+	void calcularProbabilidadesDeLosCrimenes(map<string,float> frecuenciaCrimenes,map<string,float> &probabilidadesCrimenes,
+			int cantidadDeRowsTrain);
 
 	void calcularCrimenesPorDistrito(map<string,int> &crimenesPorDistrito,string &csvItem,map<string,float> &bayview,
 			map<string,float> &central,map<string,float> &ingleside,map<string,float> &mission,
