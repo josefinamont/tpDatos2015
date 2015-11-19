@@ -57,8 +57,6 @@ public:
 			map<string,float> &richmond,map<string,float> &southern,map<string,float> &taraval,
 			map<string,float> &tenderloin,map<string,float> frecuenciaCrimenes);
 
-	//void calcularProbabilidades(char *nameFile);
-
 	void imprimirCrimenesPorHora(map<string,float> crimenesPorHora[24]);
 
 	virtual ~CSVReader();

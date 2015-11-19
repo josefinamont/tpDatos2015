@@ -51,6 +51,11 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 			istringstream myline(line);
 
 			while(getline(myline, csvItem, ',')) {
+
+				if(nroItem == 1){
+					getline(myline,delitoActual, ',');
+					calcularCrimenesPorHora(csvItem,delitoActual,probabilidadesHoras,horas);
+				}
 				if (nroItem == 2){
 					crimen = csvItem;
 					if (frecuenciaCrimenes.count(csvItem) < 1) frecuenciaCrimenes[csvItem] = 1; else
@@ -59,14 +64,12 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 				if (nroItem == 3) calcularCrimenesPorDia(csvItem,crimen,lunes,martes,miercoles,jueves,viernes,sabado,domingo);
 				if (nroItem == 4) calcularCrimenesPorDistrito(crimenesPorDistrito,csvItem,bayview,central,ingleside,mission,
 								northern,park,richmond,southern,taraval,tenderloin,crimen);
-				if(nroItem == 1){
-					getline(myline,delitoActual, ',');
-					calcularCrimenesPorHora(csvItem,delitoActual,probabilidadesHoras,horas);
-				}
 				nroItem++;
 			}
 		}
 	}
+
+	myfile.close();
 
 	//se calculan las probabilidades de cada clase
 	this->calcularProbabilidadesDeLosCrimenes(frecuenciaCrimenes,probabilidadesCrimenes,cantidadDeRowsTrain);
@@ -77,6 +80,7 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 	this->calcularProbabilidadesDeCrimenesPorDistrito(bayview,central,ingleside,mission,northern,park,richmond,southern,taraval,
 			tenderloin,frecuenciaCrimenes);
     this->calcularProbabilidadesDeCrimenesPorHora(probabilidadesHoras,frecuenciaCrimenes);
+
 	probabilidadesDias[0] = lunes;
 	probabilidadesDias[1] = martes;
 	probabilidadesDias[2] = miercoles;
@@ -96,6 +100,8 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 	probabilidadesDistritos[8] = taraval;
 	probabilidadesDistritos[9] = tenderloin;
 
+	cout << "Se calcularon correctamente las probabilidades necesarias" << endl;
+
 }
 
 void CSVReader::calcularProbabilidadesDeLosCrimenes(map<string,float> frecuenciaCrimenes,map<string,float> &probabilidadesCrimenes,
@@ -107,7 +113,6 @@ void CSVReader::calcularProbabilidadesDeLosCrimenes(map<string,float> frecuencia
 		iter->second = (iter->second/cantidadDeRowsTrain);
 		iter++;
 	}
-
 }
 
 void CSVReader::calcularProbabilidad(map<string,float> &nombreMap,map<string,float> frecuenciaCrimenes){
@@ -121,38 +126,38 @@ void CSVReader::calcularProbabilidad(map<string,float> &nombreMap,map<string,flo
 }
 
 void CSVReader::calcularProbabilidadesDeCrimenesPorHora(map<string,float> crimenesPorHora[24],
-		map<string,float>frecuenciaCrimenes){
-    this->imprimirCrimenesPorHora(crimenesPorHora);
+	map<string,float>frecuenciaCrimenes){
+
+    //this->imprimirCrimenesPorHora(crimenesPorHora);
 	int numero = 0;
-			while(numero <24){
-				calcularProbabilidad(crimenesPorHora[numero], frecuenciaCrimenes);
-				numero++;
-			}
+	while(numero <24){
+		calcularProbabilidad(crimenesPorHora[numero], frecuenciaCrimenes);
+		numero++;
+	}
 }
+
 void CSVReader::imprimirCrimenesPorHora(map<string,float>crimenesPorHora[24]){
 
 	int numero = 0;
-			long int cantidadDeDelitosTotales = 0;
-			long int cantidadDeDelitosPorHora;
-			map<string, float>::iterator iter; //= probabilidades[numero].begin();
-			while(numero <24){
-				iter = crimenesPorHora[numero].begin();
-				cout<< "hora " << numero<<endl;
-				cantidadDeDelitosPorHora = 0;
-
-				while (iter != crimenesPorHora[numero].end() ){
+	long int cantidadDeDelitosTotales = 0;
+	long int cantidadDeDelitosPorHora;
+	map<string, float>::iterator iter; //= probabilidades[numero].begin();
+	while(numero <24){
+		iter = crimenesPorHora[numero].begin();
+		cout<< "hora " << numero<<endl;
+		cantidadDeDelitosPorHora = 0;
+		while (iter != crimenesPorHora[numero].end() ){
 				//iter->second = (iter->second)/denominador;
 			      cout << iter->first + " " <<  iter->second << endl;
 			      cantidadDeDelitosPorHora= cantidadDeDelitosPorHora + iter->second;
 			      iter++;
-			    }
-				cout << cantidadDeDelitosPorHora<< endl;
-				cantidadDeDelitosTotales= cantidadDeDelitosTotales + cantidadDeDelitosPorHora;
-				numero++;
-	        }
-			cout << cantidadDeDelitosTotales<< endl;
+		}
+		cout << cantidadDeDelitosPorHora << endl;
+		cantidadDeDelitosTotales= cantidadDeDelitosTotales + cantidadDeDelitosPorHora;
+		numero++;
+	}
+	cout << cantidadDeDelitosTotales << endl;
 }
-
 
 void CSVReader::calcularProbabilidadesDeCrimenesPorDia(map<string,float> &lunes,map<string,float> &martes,
 		map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
@@ -190,13 +195,13 @@ void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,ma
 
 	if(horas.count(horaActual)<1){
 		if (crimenesPorHora[atoi(horaActual.c_str())].count(delitoActual)<1){
-			 	crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
+			crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 		}
 		else crimenesPorHora[atoi(horaActual.c_str())][delitoActual] += 1;
 	}
-	else{
-			horas[horaActual] = atoi(horaActual.c_str());
-			crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
+	else {
+		horas[horaActual] = atoi(horaActual.c_str());
+		crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 	}
 }
 
@@ -251,38 +256,6 @@ void CSVReader::calcularCrimenesPorDistrito(map<string,int> &crimenesPorDistrito
 		if (tenderloin.count(crimen) < 1) tenderloin[crimen] = 1; else tenderloin[crimen] += 1;
 	}
 }
-
-/*void calcularProbabilidades(char *nameFile){
-
-	string line, csvItem;
-	ifstream myfile(nameFile);
-	int nroItem = 0;
-	map<string,float> probabilidades;
-	struct Row {
-		string hora;
-		string diaDeLaSemana;
-		string distrito;
-	} row;
-
-	if (myfile.is_open()) {
-
-		while (getline(myfile,line)) {
-			nroItem = 0;
-			istringstream myline(line);
-
-			while(getline(myline, csvItem, ',')) {
-				if (nroItem == 2) row.hora = csvItem; else
-					if (nroItem == 3) row.diaDeLaSemana = csvItem; else
-						if (nroItem == 4) row.distrito = csvItem;
-
-				nroItem++;
-			}
-		}
-		myfile.close();
-	}
-
-}*/
-
 
 CSVReader::~CSVReader() {
 

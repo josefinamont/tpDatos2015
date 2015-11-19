@@ -7,6 +7,7 @@
 //============================================================================
 
 #include "CSVReader.h"
+#include "Bayes.h"
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -22,12 +23,21 @@ int main() {
 	map<string,float> probabilidadesPorDias[7];//probabilidad de crimenes por dia
 	map<string,float> probabilidadesPorDistrito[10];//probabilidades de crimenes por distrito
 	map<string,float> probabilidadesPorHoras[24];
+
 	CSVReader csv;
+	Bayes clasificadorBayesiano;
 	int cantidadDeRowsTrain = 0;
 
-	char* archivo = "trainSpliteado.csv";
-	csv.open(archivo,cantidadDeRowsTrain,frecuenciaDeCrimenes,frecuenciaDeCrimenesPorDistrito,probabilidadesDeCrimenes,
+	char* train = "trainSpliteado.csv";
+	char* test = "testSpliteado.csv";
+
+	csv.open(train,cantidadDeRowsTrain,frecuenciaDeCrimenes,frecuenciaDeCrimenesPorDistrito,probabilidadesDeCrimenes,
 			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras);
+
+	clasificadorBayesiano.train(frecuenciaDeCrimenes,frecuenciaDeCrimenes,frecuenciaDeCrimenesPorDistrito,
+			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras);
+
+	clasificadorBayesiano.predecir(test);
 
 	return 0;
 }
