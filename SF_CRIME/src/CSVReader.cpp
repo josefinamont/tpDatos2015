@@ -96,11 +96,10 @@ void CSVReader::calcularProbabilidadesDeLosCrimenes(map<string,float> frecuencia
 		int cantidadDeRowsTrain){
 
 	probabilidadesCrimenes = frecuenciaCrimenes;
-	map<string,float>::iterator iter2 = probabilidadesCrimenes.begin();
-	while (iter2 != probabilidadesCrimenes.end() ){
-		iter2->second = (iter2->second/cantidadDeRowsTrain);
-		//cout << iter2->first + " " <<  iter2->second << endl;
-		iter2++;
+	map<string,float>::iterator iter = probabilidadesCrimenes.begin();
+	while (iter != probabilidadesCrimenes.end() ){
+		iter->second = (iter->second/cantidadDeRowsTrain);
+		iter++;
 	}
 
 }
