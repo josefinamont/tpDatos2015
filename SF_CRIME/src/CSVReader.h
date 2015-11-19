@@ -13,6 +13,7 @@
 #include <sstream>
 #include <string>
 #include <stdio.h>
+#include <stdlib.h>
 #include <map>
 
 using namespace std;
@@ -29,7 +30,7 @@ public:
 
 	void open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &frecuenciasCrimenes,
 			map<string,int> &crimenesPorDistrito,map<string,float> &probabilidadesCrimenes,
-			map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10]);
+			map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10],map<string,float> probabilidadesHoras[24]);
 
 	void calcularProbabilidadesDeLosCrimenes(map<string,float> frecuenciaCrimenes,map<string,float> &probabilidadesCrimenes,
 			int cantidadDeRowsTrain);
@@ -43,6 +44,10 @@ public:
 			map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
 			map<string,float> &domingo);
 
+	void calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> &horas);
+
+	void calcularProbabilidadesDeCrimenesPorHora(map<string,float> crimenesPorHora[24], map<string,float> frecuenciaCrimenes);
+
 	void calcularProbabilidadesDeCrimenesPorDia(map<string,float> &lunes,map<string,float> &martes,
 			map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
 			map<string,float> &domingo,map<string,float> frecuenciaCrimenes);
@@ -53,6 +58,8 @@ public:
 			map<string,float> &tenderloin,map<string,float> frecuenciaCrimenes);
 
 	//void calcularProbabilidades(char *nameFile);
+
+	void imprimirCrimenesPorHora(map<string,float> crimenesPorHora[24]);
 
 	virtual ~CSVReader();
 };
