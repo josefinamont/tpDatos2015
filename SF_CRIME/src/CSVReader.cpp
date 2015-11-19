@@ -62,6 +62,9 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 		}
 	}
 
+	//se calculan las probabilidades de cada clase
+	this->calcularProbabilidadesDeLosCrimenes(frecuenciaCrimenes,probabilidadesCrimenes,cantidadDeRowsTrain);
+
 	//esto lo que hace es calcular las probabilidades de los crimenes por dia y distrito, y almacenarlos en un vector
 	//para luego poder acceder a estos datos calculados
 	this->calcularProbabilidadesDeCrimenesPorDia(lunes,martes,miercoles,jueves,viernes,sabado,domingo,frecuenciaCrimenes);
