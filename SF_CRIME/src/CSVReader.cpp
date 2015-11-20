@@ -66,9 +66,12 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 								northern,park,richmond,southern,taraval,tenderloin,crimen);
 				nroItem++;
 			}
+			//cout << frecuenciaCrimenes[crimen] << endl ;
 		}
-	}
 
+	}
+	//cout << "fuera" << endl;
+	//cout << frecuenciaCrimenes[crimen] << endl ;
 	myfile.close();
 
 	//se calculan las probabilidades de cada clase
@@ -120,7 +123,7 @@ void CSVReader::calcularProbabilidad(map<string,float> &nombreMap,map<string,flo
 	map<string,float>::iterator iter = nombreMap.begin();
 	while (iter != nombreMap.end() ){
 		iter->second = (iter->second/frecuenciaCrimenes[iter->first]);
-		//cout << iter2->first + " " <<  iter2->second << endl;
+		//cout << iter->first + " " <<  iter->second << endl;
 		iter++;
 	}
 }

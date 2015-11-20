@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <stdlib.h>
 #include <string>
 
 namespace std {
@@ -33,15 +34,17 @@ private:
 	map<string,float> *probabilidadesPorDistrito;
 	map<string,float> *probabilidadesPorHoras;
 
-	void predecirRow(Row row);
+	float* predecirRow(Row row);
 
-	float calcularProbabilidadPosteriori(map<string,float> frecuenciaDeCrimenes,map<string,float> probabilidadesDeCrimenes,
-			map<string,int> frecuenciaDeCrimenesPorDistrito,map<string,float> *probabilidadesPorDias,
-			map<string,float> *probabilidadesPorDistrito,map<string,float> *probabilidadesPorHoras);
+	float calcularProbabilidadPosteriori(Row row,string nombreDelCrimen);
 
-	float calcularProbabilidadPriori(map<string,float> frecuenciaDeCrimenes,map<string,float> probabilidadesDeCrimenes,
-			map<string,int> frecuenciaDeCrimenesPorDistrito,map<string,float> *probabilidadesPorDias,
-			map<string,float> *probabilidadesPorDistrito,map<string,float> *probabilidadesPorHoras);
+	float calcularProbabilidadPriori(Row row);
+
+	float calcularProbabilidadDelRow(float p1,float p2,float p3);
+
+	int calcularDistritoCorrespondiente(string distrito);
+
+	int calcularDiaCorrespondiente(string dia);
 
 public:
 
