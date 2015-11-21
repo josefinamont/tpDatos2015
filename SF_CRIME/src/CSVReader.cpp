@@ -18,7 +18,7 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 		map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10],
 		map<string,float> probabilidadesHoras[24]){
 
-	string line, csvItem,crimen,delitoActual;
+	string line, csvItem,crimen,horaActual;
 	ifstream myfile(nameFile);
 	int nroItem = 0;
 
@@ -53,13 +53,13 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 			while(getline(myline, csvItem, ',')) {
 
 				if(nroItem == 1){
-					getline(myline,delitoActual, ',');
-					calcularCrimenesPorHora(csvItem,delitoActual,probabilidadesHoras,horas);
+					horaActual = csvItem;
 				}
 				if (nroItem == 2){
 					crimen = csvItem;
 					if (frecuenciaCrimenes.count(csvItem) < 1) frecuenciaCrimenes[csvItem] = 1; else
 						frecuenciaCrimenes[csvItem] += 1;
+					calcularCrimenesPorHora(csvItem,horaActual,probabilidadesHoras,horas);
 				}
 				if (nroItem == 3) calcularCrimenesPorDia(csvItem,crimen,lunes,martes,miercoles,jueves,viernes,sabado,domingo);
 				if (nroItem == 4) calcularCrimenesPorDistrito(crimenesPorDistrito,csvItem,bayview,central,ingleside,mission,
