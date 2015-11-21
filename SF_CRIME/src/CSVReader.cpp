@@ -59,7 +59,7 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 					crimen = csvItem;
 					if (frecuenciaCrimenes.count(csvItem) < 1) frecuenciaCrimenes[csvItem] = 1; else
 						frecuenciaCrimenes[csvItem] += 1;
-					calcularCrimenesPorHora(horaActual,csvItem,probabilidadesHoras,&horas);
+					calcularCrimenesPorHora(horaActual,csvItem,probabilidadesHoras,horas);
 				}
 				if (nroItem == 3) calcularCrimenesPorDia(csvItem,crimen,lunes,martes,miercoles,jueves,viernes,sabado,domingo);
 				if (nroItem == 4) calcularCrimenesPorDistrito(crimenesPorDistrito,csvItem,bayview,central,ingleside,mission,
@@ -195,16 +195,16 @@ void CSVReader::calcularProbabilidadesDeCrimenesPorDistrito(map<string,float> &b
 
 }
 
-void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> *horas){
+void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> &horas){
 
-	if(horas->count(horaActual)<1){
+	if(horas.count(horaActual)<1){
 		if (crimenesPorHora[atoi(horaActual.c_str())].count(delitoActual)<1){
 			crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 		}
 		else crimenesPorHora[atoi(horaActual.c_str())][delitoActual] += 1;
 	}
 	else {
-		(*horas)[horaActual] = atoi(horaActual.c_str());
+		horas[horaActual] = atoi(horaActual.c_str());
 		crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 	}
 }

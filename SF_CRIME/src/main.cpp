@@ -34,16 +34,16 @@ int main() {
 	csv.open(train,cantidadDeRowsTrain,frecuenciaDeCrimenes,frecuenciaDeCrimenesPorDistrito,probabilidadesDeCrimenes,
 			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras);
 
-	//clasificadorBayesiano.train(frecuenciaDeCrimenes,probabilidadesDeCrimenes,frecuenciaDeCrimenesPorDistrito,
-			//probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras);
+	clasificadorBayesiano.train(frecuenciaDeCrimenes,probabilidadesDeCrimenes,frecuenciaDeCrimenesPorDistrito,
+			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras);
 
-	//clasificadorBayesiano.predecir(test);
+	clasificadorBayesiano.predecir(test);
 
-	map<string,float>::iterator iter = frecuenciaDeCrimenes.begin();
+	/*map<string,float>::iterator iter = frecuenciaDeCrimenes.begin();
 	while (iter != frecuenciaDeCrimenes.end() ){
 		cout << iter->first + " " <<  iter->second << endl;
 		iter++;
-	}
+	}*/
 
 	return 0;
 }
