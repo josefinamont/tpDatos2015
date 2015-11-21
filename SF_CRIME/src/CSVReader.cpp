@@ -59,7 +59,7 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 					crimen = csvItem;
 					if (frecuenciaCrimenes.count(csvItem) < 1) frecuenciaCrimenes[csvItem] = 1; else
 						frecuenciaCrimenes[csvItem] += 1;
-					calcularCrimenesPorHora(csvItem,horaActual,probabilidadesHoras,horas);
+					calcularCrimenesPorHora(horaActual,csvItem,probabilidadesHoras,&horas);
 				}
 				if (nroItem == 3) calcularCrimenesPorDia(csvItem,crimen,lunes,martes,miercoles,jueves,viernes,sabado,domingo);
 				if (nroItem == 4) calcularCrimenesPorDistrito(crimenesPorDistrito,csvItem,bayview,central,ingleside,mission,
@@ -122,8 +122,9 @@ void CSVReader::calcularProbabilidad(map<string,float> &nombreMap,map<string,flo
 
 	map<string,float>::iterator iter = nombreMap.begin();
 	while (iter != nombreMap.end() ){
+		//cout << iter->first + " " <<  iter->second << frecuenciaCrimenes[iter->first] <<endl;
 		iter->second = (iter->second/frecuenciaCrimenes[iter->first]);
-		//cout << iter->first + " " <<  iter->second << endl;
+		cout << iter->first + " " <<  iter->second << endl;
 		iter++;
 	}
 }
@@ -137,6 +138,7 @@ void CSVReader::calcularProbabilidadesDeCrimenesPorHora(map<string,float> crimen
 		calcularProbabilidad(crimenesPorHora[numero], frecuenciaCrimenes);
 		numero++;
 	}
+	this->imprimirCrimenesPorHora(crimenesPorHora);
 }
 
 void CSVReader::imprimirCrimenesPorHora(map<string,float>crimenesPorHora[24]){
@@ -150,13 +152,12 @@ void CSVReader::imprimirCrimenesPorHora(map<string,float>crimenesPorHora[24]){
 		cout<< "hora " << numero<<endl;
 		cantidadDeDelitosPorHora = 0;
 		while (iter != crimenesPorHora[numero].end() ){
-				//iter->second = (iter->second)/denominador;
 			      cout << iter->first + " " <<  iter->second << endl;
-			      cantidadDeDelitosPorHora= cantidadDeDelitosPorHora + iter->second;
+			      //cantidadDeDelitosPorHora= cantidadDeDelitosPorHora + iter->second;
 			      iter++;
 		}
-		cout << cantidadDeDelitosPorHora << endl;
-		cantidadDeDelitosTotales= cantidadDeDelitosTotales + cantidadDeDelitosPorHora;
+		//cout << cantidadDeDelitosPorHora << endl;
+		//cantidadDeDelitosTotales= cantidadDeDelitosTotales + cantidadDeDelitosPorHora;
 		numero++;
 	}
 	cout << cantidadDeDelitosTotales << endl;
@@ -194,16 +195,16 @@ void CSVReader::calcularProbabilidadesDeCrimenesPorDistrito(map<string,float> &b
 
 }
 
-void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> &horas){
+void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> *horas){
 
-	if(horas.count(horaActual)<1){
+	if(horas->count(horaActual)<1){
 		if (crimenesPorHora[atoi(horaActual.c_str())].count(delitoActual)<1){
 			crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 		}
 		else crimenesPorHora[atoi(horaActual.c_str())][delitoActual] += 1;
 	}
 	else {
-		horas[horaActual] = atoi(horaActual.c_str());
+		(*horas)[horaActual] = atoi(horaActual.c_str());
 		crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 	}
 }

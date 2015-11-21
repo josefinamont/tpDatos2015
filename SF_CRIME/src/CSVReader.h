@@ -44,7 +44,7 @@ public:
 			map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
 			map<string,float> &domingo);
 
-	void calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> &horas);
+	void calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> *horas);
 
 	void calcularProbabilidadesDeCrimenesPorHora(map<string,float> crimenesPorHora[24], map<string,float> frecuenciaCrimenes);
 
