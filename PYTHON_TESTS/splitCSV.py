@@ -22,7 +22,7 @@ def splitTest(nameFile, outputFile):
 	in archivo_input_csv:
 		
 		(month, hour) = splitDate(date)
-		registro = (month, hour, dayOfWeek, district, x, y)
+		registro = (ids,month, hour, dayOfWeek, district, x, y)
 		registros.append(registro)
 	
 	archivo_input.close()
@@ -42,7 +42,7 @@ def splitTrain(nameFile, outPutFile):
 	address, x, y  in archivo_input_csv:
 		
 		(month, hour) = splitDate(date)
-		registro = (month, hour,category,dayOfWeek, district, x, y)
+		registro = (month, hour,category,dayOfWeek, district,x,y)
 		registros.append(registro)
 	
 	archivo_input.close()
